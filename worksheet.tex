@@ -4,10 +4,31 @@
 \setdocauthor{Stephan Bökelmann}
 \setdocemail{sboekelmann@ep1.rub.de}
 \setdocinstitute{AG Physik der Hadronen und Kerne}
-
+\usepackage{listings}
 
 \begin{document}
 
+When a program is loaded into RAM, the whole string, that called the program is stored in the new processes RAM.
+The C-Compiler knows where they are located and can therefore call them.
+These strings are called \textbf{command line arguments}.
+Take a close look at a full definition of a main-function:
+\begin{lstlisting}
+int main(int argc, char **argv) {}
+\end{lstlisting}
+The shell that calls the new program copies the following information into the new process:
+\begin{enumerate}
+    \item The number of words, given to the commandline and separeted by spaces
+    \item A pointer to a pointer to the words
+\end{enumerate}
+The second parameter looks a little bit weird, so let's investigate it further.
+A character is stored in memory by using the type \texttt{char}.
+So how would we deal with a bunch of consecutive characters? 
+The answer to that is the string-mechanic. 
+A string is nothing but an array of characters, which are stored contiguously in memory.
+The array is terminated by a null character (\texttt{\\0}).
+Since an array passed to a function is usually passed as a pointer to the first element, plus the number of elements in that array, we can now understand the idea of the parameters to main.
+\texttt{char **argv} is a pointer to the first string. 
+Thus the second parameter is \texttt{argv[1]}, and so on and so forth.
 \section*{Exercise}
 \begin{aufgabe}
     Write a program, that prints the number of arguments.
@@ -18,7 +39,10 @@
 \end{aufgabe}
 
 \begin{aufgabe}
-    Write a program, that takes a flag.
+    Now we want to use the standard library function getopt.
+    This function is defined in the header file \texttt{unistd.h}.
+    Check the following examples, clone and compile them: \url{https://github.com/bjoekeldude/uebergabe_an_main} 
+    After that, write a program, that takes a flag.
     If the flag is set, print the number of arguments.
 \end{aufgabe}
 
